@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>LED basic DRC</description>
+ <version/>
+ <category>drc</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <priority>0</priority>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name>drc_scripts</group-name>
+ <menu-path>tools_menu.drc.end</menu-path>
+ <interpreter>dsl</interpreter>
+ <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
+ <text>
+# Read about DRC scripts in the User Manual in "Design Rule Check (DRC)"
+
+# This is a sample:
+report("demo")
+
+detch = input(1, 0)
+lpillar = input(2, 0)
+spillar = input(3, 0)
+setch = input(4, 0)
+csl = input(5, 0)
+nopen = input(6, 0)
+metal = input(7,0)
+
+lpillar.not_inside(setch).output("L-Pillar not cover by MESA")
+spillar.not_inside(setch).output("S-Pillar not cover by MESA")
+
+setch.not_inside(detch).output("MESA not cover by DEEP etch")
+(detch - setch).width(2.5.um).output("MESA and DEEP etch gap &lt; 2.5um")
+
+csl.not_inside(setch).output("CSL not cover by MESA")
+(setch - csl).width(5.um).output("CSL and MESA etch gap &lt; 5um")
+
+nopen.not_inside(detch).output("nOPEN not cover by DEEP etch")
+
+metal.with_angle(91..130).output("Metal 91~130 Degree")</text>
+</klayout-macro>
